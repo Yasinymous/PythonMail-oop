@@ -1,0 +1,39 @@
+from .settings import SenderSettings, ReceiverSettings
+
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+s = SenderSettings
+r = ReceiverSettings
+
+class SendMail:
+
+    def baglan(self):
+        sunucu = smtplib.SMTP_SSL(s.host, 465)
+        sunucu.login(s.mail,s.password)
+        return sunucu
+    
+    def mailgonder(self):
+        sunucu = self.baglan()
+        gonderici = s.mail
+        alici = r.to   
+        msg = MIMEMultipart()
+        msg['From'] = 'verification@yasinymous.com'
+        msg['To'] = r.to
+        msg['Subject'] = r.subject
+        #msg = 'Subject: {}\n\n{}'.format(SUBJECT, TEXT)
+        text = r.text
+        html = r.html
+        part1 = MIMEText(text, "plain")
+        part2 = MIMEText(html, "html")
+        msg.attach(part1)
+        msg.attach(part2)
+        try:
+
+            sunucu.sendmail(gonderici,alici,msg.as_string())
+            print("Mail başarılı bir şekilde gönderildi.")
+        except EOFError:
+            print("Mail gönderilirken hata oluştu.")
+    
+        sunucu.quit()
