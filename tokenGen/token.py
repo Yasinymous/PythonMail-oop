@@ -11,25 +11,25 @@ class Token:
     def read(self):
         i = 0
         x = ""
-        y = "abcdefghijklmnopqrstuvwxyz0123456789!?_-*."
+        y = "abcdefghijklmnopqrstuvwxyz0123456789!?_-"
         listem = list(y)
         while(i<31):
             i=i+1
             x += str(random.choice(listem))
-        print(x)
         return x
 
     def token_generate(self):
-        self.read()
+        return self.read()
 
     def key_generate(self):
-        self.read()
+        return self.read()
         
     def date_generate(self):
-        an = datetime.datetime.now()
-        print(an)
+        return datetime.datetime.now()
+        
 
     def final(self):
-        self.token_generate()
-        self.key_generate()
-        self.date_generate()
+        token = self.token_generate()
+        key = self.key_generate()
+        data = self.date_generate()
+        return key

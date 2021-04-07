@@ -14,7 +14,7 @@ class Data:
     def create_table(self,db):
         connection = self.connect(db)
         cursor = connection.cursor()
-        cursor.execute('CREATE TABLE IF NOT EXISTS Users(uid INTEGER PRIMARY KEY AUTOINCREMENT, username VARCHAR(64) UNIQUE, password VARCHAR(256), mail TEXT, verified INT)')
+        cursor.execute('CREATE TABLE IF NOT EXISTS Users(uid INTEGER PRIMARY KEY AUTOINCREMENT, username VARCHAR(64) UNIQUE, password VARCHAR(256), mail TEXT UNIQUE, verified INT)')
         self.con_commit_close(connection)
 
     def Control_Data_UID(self,db):
@@ -32,12 +32,21 @@ class Data:
         cursor.execute('INSERT INTO Users(username, password, mail, verified) VALUES (?,?,?,?)',(data.username,data.password,data.mail,data.verified))
         self.con_commit_close(connection)
 
-    def Add_Data1(self,username,password,mail,verified,db):
+    
+    def MailVerified(self,uid,verified,db):
         connection = sqlite3.connect(db)
         cursor = connection.cursor()
-        cursor.execute('INSERT INTO Users(username, password, mail, verified) VALUES (?,?,?,?)',(username,password,mail,verified))
+        cursor.execute('UPDATE Users SET verified = ? WHERE uid = ? ',(verified,uid))
         self.con_commit_close(connection)
-    
+
+    def MailUpdate(self,uid,mail,db):
+        connection = sqlite3.connect(db)
+        cursor = connection.cursor()
+        cursor.execute('UPDATE Users SET mail = ? WHERE uid = ? ',(mail,uid))
+        self.con_commit_close(connection)
+
+
+
     def Delete_Data(self,uid,db):
         connection = self.connect(db)
         cursor = connection.cursor()
@@ -64,21 +73,40 @@ class Data:
             else:
                 return False
 
-    def UserControl(self,index,control,db):
+    def UserControl(self,username,db):
         connection = self.connect(db)
         cursor = connection.cursor()
         cursor.execute('SELECT * from Users')
-        for user in cursor.fetchall():
-            if (control == user[index]):
+        for uid in cursor.fetchall():
+            if (username == uid[1]):
                 return True
-            else:
-                return False
+        return False
+
+    def MailControl(self,mail,db):
+        connection = self.connect(db)
+        cursor = connection.cursor()
+        cursor.execute('SELECT * from Users')
+        for uid in cursor.fetchall():
+            if (mail == uid[3]):
+                return True
+        return False
+
+    def MailDelete(self,mail,db):
+        connection = self.connect(db)
+        cursor = connection.cursor()
+        cursor.execute('SELECT * from Users')
+        for uid in cursor.fetchall():
+            if (mail == uid[3]):
+                if( 1 != uid[4]):
+                    self.MailUpdate(uid[0],'',db)
+           
+
 
     def UserLogin(self,username,password,db):
         connection = self.connect(db)
         cursor = connection.cursor()
         cursor.execute('SELECT * from Users WHERE username="%s" AND password="%s"' % (username, password))
         if cursor.fetchone() is not None:
-            print("Welcome")
+            return True
         else:
-            print("Login failed")
+            return False

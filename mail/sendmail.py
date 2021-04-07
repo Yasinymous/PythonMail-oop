@@ -1,11 +1,10 @@
-from .settings import SenderSettings, ReceiverSettings
+from .settings import SenderSettings
 
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 s = SenderSettings
-r = ReceiverSettings
 
 class SendMail:
 
@@ -14,19 +13,17 @@ class SendMail:
         sunucu.login(s.mail,s.password)
         return sunucu
     
-    def mailgonder(self):
+    def mailgonder(self,to,subject,text,html):
         sunucu = self.baglan()
         gonderici = s.mail
-        alici = r.to   
+        alici = to   
         msg = MIMEMultipart()
         msg['From'] = 'verification@yasinymous.com'
-        msg['To'] = r.to
-        msg['Subject'] = r.subject
+        msg['To'] = to
+        msg['Subject'] = subject
         #msg = 'Subject: {}\n\n{}'.format(SUBJECT, TEXT)
-        text = r.text
-        html = r.html
-        part1 = MIMEText(text, "plain")
-        part2 = MIMEText(html, "html")
+        part1 = MIMEText(text, "plain", "utf-8")
+        part2 = MIMEText(html, "html", "utf-8")
         msg.attach(part1)
         msg.attach(part2)
         try:

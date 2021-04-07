@@ -6,6 +6,7 @@ r = Register()
 l = Login()
 
 
+
 class User:
 
     def __init__(self, uid, username, password, mail, verified):
@@ -15,22 +16,17 @@ class User:
         self.mail = mail
         self.verified = verified
     
-    def register(db):   
+    def register(username,mail,password,verified,db):   
         print('Register')
-        username = input('Username : ')
-        
-        password = input('Password : ')
-        mail = input('E-mail : ')
-        user_c = r.username_control(username,db)
-        mail_c = r.mail_control(mail,db)
-        if(user_c == False and mail_c == False):
-            print('Username is used')
-        else:
-            new_user = User(0,username,password,mail,0)
+        test = r.control(username,mail,db)
+        if(test):
+            new_user = User(0,username,password,mail,verified)
             print ('username {}, password {}, mail {}, verified {}'.format(new_user.username, new_user.password,
                                                                         new_user.mail, new_user.verified))   
             data.Add_Data(new_user,db)
             print('\n')     
+            return True
+        return False
 
     def login(db):
         print('login')
@@ -43,9 +39,5 @@ class User:
     
     def pass_change(self):
         print('pass change')
-        
-    def mail_verification(self):
-        print('mail verification')
-
         
 
