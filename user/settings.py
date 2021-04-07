@@ -58,3 +58,12 @@ class Login:
 
     def login(self,username,password,db):
         return data.UserLogin(username,password,db)
+
+    def user(self,username,db):
+        return data.UserInfo(username,db)
+
+    def home(self,db):
+        return data.List_Data(db)
+
+    def user_count(self,db):
+        return data.usercount(db)

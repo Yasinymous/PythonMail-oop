@@ -45,8 +45,6 @@ class Data:
         cursor.execute('UPDATE Users SET mail = ? WHERE uid = ? ',(mail,uid))
         self.con_commit_close(connection)
 
-
-
     def Delete_Data(self,uid,db):
         connection = self.connect(db)
         cursor = connection.cursor()
@@ -58,8 +56,7 @@ class Data:
         cursor = connection.cursor()
         cursor.execute('SELECT * from Users')
         new_uid = 0
-        for uid in cursor.fetchall():
-            print(uid)    
+        return cursor
            
 
     def Search_Data(self,search_id,db):
@@ -99,8 +96,6 @@ class Data:
             if (mail == uid[3]):
                 if( 1 != uid[4]):
                     self.MailUpdate(uid[0],'',db)
-           
-
 
     def UserLogin(self,username,password,db):
         connection = self.connect(db)
@@ -110,3 +105,20 @@ class Data:
             return True
         else:
             return False
+
+    def UserInfo(self,username,db):
+        connection = self.connect(db)
+        cursor = connection.cursor()
+        cursor.execute('SELECT * from Users')
+        for uid in cursor.fetchall():
+            if (username == uid[1]):
+                return uid
+
+    def usercount(self,db):
+        connection = self.connect(db)
+        cursor = connection.cursor()
+        cursor.execute('SELECT * from Users')
+        count = 0
+        for uid in cursor.fetchall():
+            count+= 1     
+        return count

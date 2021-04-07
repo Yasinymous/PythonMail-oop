@@ -5,4 +5,3 @@ class SenderSettings:
     host = ''
     mail = ''
     password = ''
-
