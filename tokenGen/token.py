@@ -31,5 +31,6 @@ class Token:
     def final(self):
         token = self.token_generate()
         key = self.key_generate()
-        data = self.date_generate()
-        return key
+        date = self.date_generate()
+        new_token = [token,key,date]
+        return new_token

@@ -45,7 +45,7 @@ class Register:
 
     def mail_verification(self,mail):
         key = token.final()
-        #send.mailgonder(mail,'Verification',key,key)     
+        #send.mailgonder(mail,'Verification',"token : "+key[0]+"\nkey : "+key[1],"")     
         print(key)
         return key
         

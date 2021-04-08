@@ -22,12 +22,11 @@ class SendMail:
         msg['To'] = to
         msg['Subject'] = subject
         #msg = 'Subject: {}\n\n{}'.format(SUBJECT, TEXT)
-        part1 = MIMEText(text, "plain", "utf-8")
-        part2 = MIMEText(html, "html", "utf-8")
+        part1 = MIMEText(text, "plain")
+        part2 = MIMEText(html, "html")
         msg.attach(part1)
         msg.attach(part2)
         try:
-
             sunucu.sendmail(gonderici,alici,msg.as_string())
             print("Mail başarılı bir şekilde gönderildi.")
         except EOFError:

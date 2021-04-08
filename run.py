@@ -1,19 +1,24 @@
 from database.database import Data
-from ui.mainscreen import MainScreen
+from ui.mainscreen import *
 import re
-
+import tkinter as tk
 
 db = 'users.db'
 
 data = Data()
 data.create_table(db)
 
-run = MainScreen()
+
 
 #data.MailVerified(1,1,db)
-run.main_account_screen()
 
 #data.Add_Data1('yasinymous','yasinymous','ysnakyz55@gmail.com',0,db)
+
+
+
+
+
+
 
 
 #User.register(db)

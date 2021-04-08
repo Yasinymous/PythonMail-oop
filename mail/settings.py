@@ -1,5 +1,3 @@
-
-
 class SenderSettings:
     name = ''
     host = ''
