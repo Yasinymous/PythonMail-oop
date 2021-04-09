@@ -18,7 +18,6 @@ login = Login()
 LARGEFONT =("Verdana", 20)
 NORMALFONT =("Verdana", 15)
 
-
   
 class tkinterApp(tk.Tk):
      
@@ -55,9 +54,19 @@ class tkinterApp(tk.Tk):
     # to display the current frame passed as
     # parameter
     def show_frame(self, cont):
+        self.clear_text(cont)
         frame = self.frames[cont]
         frame.tkraise()
-  
+    def clear_text(self,cont):
+        if (cont == Page1):
+            username_entry.delete(0, 'end')
+            password_entry.delete(0, 'end')
+            mail_entry.delete(0, 'end')
+        else:
+            username_login_entry.delete(0, 'end')
+            password_login_entry.delete(0, 'end')
+        
+        
 # first window frame startpage
   
 class StartPage(tk.Frame):
@@ -138,7 +147,13 @@ class Page1(tk.Frame):
         button3 = ttk.Button(self, text ="Login",
                             command = self.login_verify)
         button3.place(x=20, y=180)
+
     
+    
+    def refresh(self):
+        self.destroy()
+        self.__init__()
+
     def login_verify(self):
         global username1
         username1 = username_verify.get()
@@ -186,12 +201,15 @@ class Page1(tk.Frame):
         b = ttk.Button(win, text="Okay", command=win.destroy)
         b.pack()
 
+        
 
+    
 
 # third window frame page2
 class Page2(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
+       
         label = ttk.Label(self, text ="Register", font = LARGEFONT)
         label.place(x=20, y=40)
   
@@ -250,7 +268,7 @@ class Page2(tk.Frame):
         global a
         if(username_info == "" or mail_info == "" or password_info == ""):
             print("bosluk")
-            #self.null()
+            self.popup_null()
         else:
             username_control = register.username_control(username_info,db)
             mail_control = register.mail_control(mail_info,db)  
@@ -263,7 +281,29 @@ class Page2(tk.Frame):
                 self.popup_mailsend(mail_info)   
                 a = register.mail_verification(mail_info)
                 app.show_frame(Page3)
+                self.popup_countdown()
+                app.show_frame(Page2)
 
+    def popup_countdown(self):
+        global win1
+        win1 = tk.Toplevel()
+        win1.wm_title("Info")
+        win1.geometry("200x100")
+        win1.resizable(0,0)
+        lbl1 = tk.Label(win1, text="test")
+        lbl1.pack(fill=BOTH, expand=1)
+        lbl1.config(fg='black')
+        lbl1.config(height=3, width=20)
+        lbl1.config(height=3, font=('times', 20, 'bold'))
+        for k in range(20, 0, -1):
+            lbl1["text"] = k
+            win1.update()
+            time.sleep(1)
+        lbl1.config(fg='red')
+        lbl1["text"] = "Time is up!"
+        time.sleep(1)   
+        win1.destroy()
+    
     def popup_usernameused(self):
         win = tk.Toplevel()
         win.wm_title("Info")
@@ -320,8 +360,7 @@ class Page3(tk.Frame):
         button1 = ttk.Button(self, text ="Confirm",
                             command = self.verified_user)
         button1.place(x=20, y=130)
-
-
+        
     def verified_user(self):
         username_info = username.get()
         mail_info = mail.get()
@@ -332,13 +371,13 @@ class Page3(tk.Frame):
             if(login_info):
                 self.popup_success()
                 app.show_frame(Page1)
-                app.update()
+                win1.destroy()
             else:
-                self.popup_unsuccess()
-                app.update()
+                self.popup_unsuccess()  
         else:
             self.popup_unverified()
     
+
     def popup_success(self):
         win = tk.Toplevel()
         win.wm_title("Info")

@@ -1,5 +1,8 @@
+
+
 class SenderSettings:
-    name = ''
-    host = ''
-    mail = ''
-    password = ''
+    name = 'yasinymous'
+    host = 'mail.yasinymous.com'
+    mail = 'verification@yasinymous.com'
+    password = 'tsfamonra55'
+
