@@ -16,7 +16,8 @@
 
 **Used libraries**
 >[> Tkinter ](https://docs.python.org/3/library/tk.html)
-[- Mail Verification](https://docs.python.org/3/library/email.examples.html)
+
+>[> Mail Verification](https://docs.python.org/3/library/email.examples.html)
 
 **Used script**
 >[> sendmail ](https://github.com/Yasinymous/Python_MailScript)
